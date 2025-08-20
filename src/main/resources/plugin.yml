@@ -1,0 +1,29 @@
+name: ClearLag
+version: '1.0'
+main: org.turbojax.clearLag.ClearLag
+api-version: '1.21'
+
+depends: ["PlaceholderAPI"]
+
+permissions:
+  clearlag.command:
+    description: "Allows users to use the clearlag command"
+    default: true
+  clearlag.command.now:
+    description: "Allows users to run \"/clearlag now\""
+    default: op
+  clearlag.command.time:
+    description: "Allows users to run \"/clearlag time\""
+    default: true
+  clearlag.command.reload:
+    description: "Allows users to run \"/clearlag reload\""
+    default: op
+  clearlag.command.help:
+    description: "Allows users to run \"/clearlag help\""
+    default: true
+
+commands:
+  clearlag:
+    description: "The command for the ClearLag plugin"
+    usage: "/clearlag <arg>"
+    permission: clearlag.command

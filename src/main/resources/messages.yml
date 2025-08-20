@@ -1,0 +1,28 @@
+# Keys can be strings or string lists.  New entries in the list are treated as new lines.
+# Use minimessage formatting
+
+# Placeholders:
+#   %clearlag_time_left%: Gets the time until the next clear
+
+first-warn: "<gray>[<#FA8128>ClearLag<gray>] <white>Clearing dropped items and unnecessary entities in <#07FB0A>%clearlag_time_left% <white>seconds!"
+second-warn: "<gray>[<#FA8128>ClearLag<gray>] <white>Clearing dropped items and unnecessary entities in <#07FB0A>%clearlag_time_left% <white>seconds!"
+items-cleared: "<gray>[<#FA8128>ClearLag<gray>] <white>All dropped items and unnecessary entities have been cleared!"
+time-left: "<gray>[<#FA8128>ClearLag<gray>] <white>Next clear is in <#07FB0A>%clearlag_time_left%<white> seconds."
+
+no-perms: "<gray>[<#FA8128>ClearLag<gray>] <red>You do not have permission to use this command!"
+
+reload-start: "<gray>[<#FA8128>ClearLag<gray>] <white>Reloading ClearLag configs..."
+reload-success: "<gray>[<#FA8128>ClearLag<gray>] <white>ClearLag configs reloaded successfully!  Next clear in <#07FB0A>%clearlag_time_left% <white>seconds."
+reload-fail: "<gray>[<#FA8128>ClearLag<gray>] <white>Could not reload configs."
+
+immediate-clear-start: "<gray>[<#FA8128>ClearLag<gray>] <white>An admin has triggered an immediate clear!"
+immediate-clear-success: "<gray>[<#FA8128>ClearLag<gray>] <white>Immediate clearing completed!"
+
+help:
+  - "<gray><st>          </st><<#FA8128> 🔥 Clearlag Commands 🔥 <gray>><st>          </st>"
+  - ""
+  - "<#FA8128>/clearlag time <white>- Shows time remaining until the next clear."
+  - "<#FA8128>/clearlag now <white>- Immediately clear all items and entities."
+  - "<#FA8128>/clearlag reload <white>- Reload the ClearLag plugin."
+  - "<#FA8128>/clearlag help <white>- Displays this help menu with command summaries."
+  - ""

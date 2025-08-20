@@ -1,0 +1,18 @@
+# Total interval in seconds for clearing items/entities
+clear-interval: 300
+
+# First warning time in seconds before clearing
+warning-1: 30
+
+# Second warning time in seconds before clearing
+warning-2: 10
+
+# Toggle whether to clear named entities
+clear-named-entities: false
+
+# A list of entities to not delete
+excluded-entities:
+  - "player"
+  - "item_frame"
+  - "armor_stand"
+  - "villager"
