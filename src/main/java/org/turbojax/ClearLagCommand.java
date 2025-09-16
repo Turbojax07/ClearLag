@@ -1,4 +1,4 @@
-package org.turbojax.clearLag;
+package org.turbojax;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.turbojax.clearLag.configs.MainConfig;
-import org.turbojax.clearLag.configs.Messages;
+import org.turbojax.configs.MainConfig;
+import org.turbojax.configs.Messages;
 
 public class ClearLagCommand implements TabExecutor {
     @Override
@@ -28,16 +28,18 @@ public class ClearLagCommand implements TabExecutor {
 
                 sender.sendMessage(Messages.formatMessage(Messages.help));
                 break;
-            case "time":
-                if (!sender.hasPermission("clearlag.command.time")){
+            case "now":
+                if (!sender.hasPermission("clearlag.command.now")) {
                     sender.sendMessage(Messages.formatMessage(Messages.noPerms));
                     break;
                 }
 
-                sender.sendMessage(Messages.formatMessage(Messages.timeLeft));
+                Bukkit.broadcast(Messages.formatMessage(Messages.immediateClearStart));
+                Daemon.getInstance().clear();
+                Bukkit.broadcast(Messages.formatMessage(Messages.immediateClearSuccess));
                 break;
             case "reload":
-                if (!sender.hasPermission("clearlag.command.reload")){
+                if (!sender.hasPermission("clearlag.command.reload")) {
                     sender.sendMessage(Messages.formatMessage(Messages.noPerms));
                     break;
                 }
@@ -47,15 +49,13 @@ public class ClearLagCommand implements TabExecutor {
                 if (MainConfig.reloadConfigs() && Messages.reloadConfigs()) sender.sendMessage(Messages.formatMessage(Messages.reloadSuccess));
                 else sender.sendMessage(Messages.formatMessage(Messages.reloadFail));
                 break;
-            case "now":
-                if (!sender.hasPermission("clearlag.command.now")){
+            case "time":
+                if (!sender.hasPermission("clearlag.command.time")) {
                     sender.sendMessage(Messages.formatMessage(Messages.noPerms));
                     break;
                 }
 
-                Bukkit.broadcast(Messages.formatMessage(Messages.immediateClearStart));
-                Daemon.getInstance().clear();
-                Bukkit.broadcast(Messages.formatMessage(Messages.immediateClearSuccess));
+                sender.sendMessage(Messages.formatMessage(Messages.timeLeft));
                 break;
         }
 

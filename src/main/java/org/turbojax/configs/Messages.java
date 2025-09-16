@@ -1,4 +1,4 @@
-package org.turbojax.clearLag.configs;
+package org.turbojax.configs;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,19 +9,21 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.turbojax.clearLag.ClearLag;
+import org.turbojax.ClearLag;
 
 public class Messages {
-    private static File file;
+    private static final File file = new File("plugins/ClearLag/messages.yml");
+    private static final FileConfiguration config = new YamlConfiguration();
     private static final MiniMessage serializer = MiniMessage.miniMessage();
 
-    public Messages(File file) {
-        Messages.file = file;
-        reloadConfigs();
-    }
-
+    /**
+     * Reloads the configuration.
+     *
+     * @return Whether the configuration was loaded successfully.
+     */
     public static boolean reloadConfigs() {
         // Creating the file
         if (!file.exists()) {
@@ -34,7 +36,12 @@ public class Messages {
         }
 
         // Loading the config
-        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        try {
+            config.load(file);
+        } catch (IOException | InvalidConfigurationException err) {
+            ClearLag.getInstance().getSLF4JLogger().error("Cannot load config file \"{}\"", file.getPath(), err);
+            return false;
+        }
 
         // Getting values from the config
         if (!config.contains("first-warn")) {
@@ -130,41 +137,38 @@ public class Messages {
         return true;
     }
 
+    /**
+     * Converts a list of strings to a component.
+     * It applies any placeholders and uses the minimessage deserializer to convert the strings to Components.
+     *
+     * @param message The list of strings to convert.
+     *
+     * @return A component representing the list of strings.
+     */
     public static Component formatMessage(List<String> message) {
         return Component.join(JoinConfiguration.newlines(), message.stream().map(line -> serializer.deserialize(PlaceholderAPI.setPlaceholders(null, line))).toList());
     }
 
-    public static List<String> warn = new ArrayList<>();
-    public static List<String> itemsCleared = new ArrayList<>();
-    public static List<String> timeLeft = new ArrayList<>();
+    public static List<String> warn = new ArrayList<>(List.of("<gray>[<#FA8128>ClearLag<gray>] <white>Clearing dropped items and unnecessary entities in <#07FB0A>%clearlag_time_left% <white>seconds!"));
+    public static List<String> itemsCleared = new ArrayList<>(List.of("<gray>[<#FA8128>ClearLag<gray>] <white>All dropped items and unnecessary entities have been cleared!"));
+    public static List<String> timeLeft = new ArrayList<>(List.of("<gray>[<#FA8128>ClearLag<gray>] <white>Next clear is in <#07FB0A>%clearlag_time_left%<white> seconds."));
 
-    public static List<String> noPerms = new ArrayList<>();
+    public static List<String> noPerms = new ArrayList<>(List.of("<gray>[<#FA8128>ClearLag<gray>] <red>You do not have permission to use this command!"));
 
-    public static List<String> reloadStart = new ArrayList<>();
-    public static List<String> reloadSuccess = new ArrayList<>();
-    public static List<String> reloadFail = new ArrayList<>();
+    public static List<String> reloadStart = new ArrayList<>(List.of("<gray>[<#FA8128>ClearLag<gray>] <white>Reloading ClearLag configs..."));
+    public static List<String> reloadSuccess = new ArrayList<>(List.of("<gray>[<#FA8128>ClearLag<gray>] <white>ClearLag configs reloaded successfully!  Next clear in <#07FB0A>%clearlag_time_left% <white>seconds."));
+    public static List<String> reloadFail = new ArrayList<>(List.of("<gray>[<#FA8128>ClearLag<gray>] <white>Could not reload configs."));
 
-    public static List<String> immediateClearStart = new ArrayList<>();
-    public static List<String> immediateClearSuccess = new ArrayList<>();
+    public static List<String> immediateClearStart = new ArrayList<>(List.of("<gray>[<#FA8128>ClearLag<gray>] <white>An admin has triggered an immediate clear!"));
+    public static List<String> immediateClearSuccess = new ArrayList<>(List.of("<gray>[<#FA8128>ClearLag<gray>] <white>Immediate clearing completed!"));
 
-    public static List<String> help = new ArrayList<>();
-
-    static {
-        warn.add("<gray>[<#FA8128>ClearLag<gray>] <white>Clearing dropped items and unnecessary entities in <#07FB0A>%clearlag_time_left% <white>seconds!");
-        itemsCleared.add("<gray>[<#FA8128>ClearLag<gray>] <white>All dropped items and unnecessary entities have been cleared!");
-        timeLeft.add("<gray>[<#FA8128>ClearLag<gray>] <white>Next clear is in <#07FB0A>%clearlag_time_left%<white> seconds.");
-        noPerms.add("<gray>[<#FA8128>ClearLag<gray>] <red>You do not have permission to use this command!");
-        reloadStart.add("<gray>[<#FA8128>ClearLag<gray>] <white>Reloading ClearLag configs...");
-        reloadSuccess.add("<gray>[<#FA8128>ClearLag<gray>] <white>ClearLag configs reloaded successfully!  Next clear in <#07FB0A>%clearlag_time_left% <white>seconds.");
-        reloadFail.add("<gray>[<#FA8128>ClearLag<gray>] <white>Could not reload configs.");
-        immediateClearStart.add("<gray>[<#FA8128>ClearLag<gray>] <white>An admin has triggered an immediate clear!");
-        immediateClearSuccess.add("<gray>[<#FA8128>ClearLag<gray>] <white>Immediate clearing completed!");
-        help.add("<gray><st>          </st>< 🔥 <#07FB0A>Clearlag Commands 🔥 <gray>><st>          </st>");
-        help.add("");
-        help.add("<#07FB0A>/clearlag help <white>- Displays this help menu with command summaries.");
-        help.add("<#07FB0A>/clearlag now <white>- Immediately clear all items and entities.");
-        help.add("<#07FB0A>/clearlag reload <white>- Reload the ClearLag plugin.");
-        help.add("<#07FB0A>/clearlag time <white>- Shows time remaining until the next clear.");
-        help.add("");
-    }
+    public static List<String> help = new ArrayList<>(List.of(
+            "<gray><st>          </st>< 🔥 <#07FB0A>Clearlag Commands 🔥 <gray>><st>          </st>",
+            "",
+            "<#07FB0A>/clearlag help <white>- Displays this help menu with command summaries.",
+            "<#07FB0A>/clearlag now <white>- Immediately clear all items and entities.",
+            "<#07FB0A>/clearlag reload <white>- Reload the ClearLag plugin.",
+            "<#07FB0A>/clearlag time <white>- Shows time remaining until the next clear.",
+            ""
+    ));
 }

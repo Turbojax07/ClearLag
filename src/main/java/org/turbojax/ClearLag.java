@@ -1,17 +1,12 @@
-package org.turbojax.clearLag;
+package org.turbojax;
 
-import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.turbojax.clearLag.configs.MainConfig;
-import org.turbojax.clearLag.configs.Messages;
+import org.turbojax.configs.MainConfig;
+import org.turbojax.configs.Messages;
 
 public final class ClearLag extends JavaPlugin {
-    private static final Logger log = LoggerFactory.getLogger(ClearLag.class);
     private static ClearLag instance;
-
     private Daemon daemon;
 
     public static ClearLag getInstance() {
@@ -23,25 +18,28 @@ public final class ClearLag extends JavaPlugin {
         // Plugin startup logic
         instance = this;
 
-        // Loading configs
+        // Saving default configs
         saveResource("config.yml", false);
         saveResource("messages.yml", false);
 
-        new MainConfig(new File(getDataFolder(), "config.yml"));
-        new Messages(new File(getDataFolder(), "messages.yml"));
+        // Loading configs into memory
+        MainConfig.reloadConfigs();
+        Messages.reloadConfigs();
 
-        // Creating the daemon and starting it up
+        // Creating and starting the daemon
         daemon = new Daemon();
         daemon.setCountdown(MainConfig.clearInterval);
         daemon.runTaskTimerAsynchronously(this, 0, 20);
 
         // Loading the PAPI extension
-        new ClearLagPAPI().register();
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            getSLF4JLogger().info("PlaceholderAPI enabled");
+            new ClearLagPAPI().register();
+        }
 
         // Registering commands
         getCommand("clearlag").setExecutor(new ClearLagCommand());
         getCommand("clearlag").setTabCompleter(new ClearLagCommand());
-
 
         getSLF4JLogger().info("ClearLag setup complete! Next clear is in {} seconds.", daemon.getNextClear());
     }

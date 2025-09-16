@@ -1,4 +1,4 @@
-package org.turbojax.clearLag;
+package org.turbojax;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
@@ -13,19 +13,25 @@ public class ClearLagPAPI extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getAuthor() {
-        return "turbojax07";
+        return "TurboJax07";
     }
 
     @Override
     public @NotNull String getVersion() {
-        return "1.0";
+        return "1.0.1";
     }
 
     @Override
     public @Nullable String onRequest(OfflinePlayer player, @NotNull String params) {
         Daemon daemon = Daemon.getInstance();
+
         if (daemon == null) return "";
-        if (params.equalsIgnoreCase("time_left")) return String.valueOf(daemon.getNextClear());
+
+        if (params.equalsIgnoreCase("time_left")) {
+            String timeLeft = String.valueOf(daemon.getNextClear());
+            ClearLag.getInstance().getSLF4JLogger().info(timeLeft);
+            return timeLeft;
+        }
 
         return "";
     }
