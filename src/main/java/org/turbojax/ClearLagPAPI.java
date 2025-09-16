@@ -18,7 +18,7 @@ public class ClearLagPAPI extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return "1.0.1";
+        return "1.0.0";
     }
 
     @Override
@@ -28,9 +28,7 @@ public class ClearLagPAPI extends PlaceholderExpansion {
         if (daemon == null) return "";
 
         if (params.equalsIgnoreCase("time_left")) {
-            String timeLeft = String.valueOf(daemon.getNextClear());
-            ClearLag.getInstance().getSLF4JLogger().info(timeLeft);
-            return timeLeft;
+            return String.valueOf(daemon.getNextClear());
         }
 
         return "";
