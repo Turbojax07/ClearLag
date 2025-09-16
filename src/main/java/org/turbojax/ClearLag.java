@@ -33,15 +33,15 @@ public final class ClearLag extends JavaPlugin {
 
         // Loading the PAPI extension
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            getSLF4JLogger().info("PlaceholderAPI enabled");
+            getSLF4JLogger().info(Messages.papiFound);
             new ClearLagPAPI().register();
         }
 
         // Registering commands
         getCommand("clearlag").setExecutor(new ClearLagCommand());
         getCommand("clearlag").setTabCompleter(new ClearLagCommand());
-
-        getSLF4JLogger().info("ClearLag setup complete! Next clear is in {} seconds.", daemon.getNextClear());
+        
+        getSLF4JLogger().info(PlaceholderAPI.setPlaceholders(null, Messages.pluginLoaded));
     }
 
     @Override
