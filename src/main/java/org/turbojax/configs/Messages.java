@@ -30,7 +30,7 @@ public class Messages {
             try {
                 file.createNewFile();
             } catch (IOException err) {
-                ClearLag.getInstance().getSLF4JLogger().error("Cannot create file \"{}\"", file.getPath());
+                ClearLag.getInstance().getSLF4JLogger().error(Messages.cannotCreateFile.replace("%file_path%", file.getPath()));
                 return false;
             }
         }
@@ -39,13 +39,43 @@ public class Messages {
         try {
             config.load(file);
         } catch (IOException | InvalidConfigurationException err) {
-            ClearLag.getInstance().getSLF4JLogger().error("Cannot load config file \"{}\"", file.getPath(), err);
+            ClearLag.getInstance().getSLF4JLogger().error(Messages.noConfigFile.replace("%file_path%", file.getPath()), err);
             return false;
         }
 
         // Getting values from the config
+        if (!config.contains("message-not-found")) {
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "message-not-found"));
+        } else {
+            messageNotFound = config.getString("message-not-found");
+        }
+
+        if (!config.contains("no-config-file")) {
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "no-config-file"));
+        } else {
+            noConfigFile = config.getString("no-config-file");
+        }
+
+        if (!config.contains("cannot-create-file")) {
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "cannot-create-file"));
+        } else {
+            cannotCreateFile = config.getString("cannot-create-file");
+        }
+        
+        if (!config.contains("papi-found")) {
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "papi-found"));
+        } else {
+            papiFound = config.getString("papi-found");
+        }
+        
+        if (!config.contains("plugin-loaded")) {
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "plugin-loaded"));
+        } else {
+            pluginLoaded = config.getString("plugin-loaded");
+        }
+        
         if (!config.contains("first-warn")) {
-            ClearLag.getInstance().getSLF4JLogger().warn("Could not retrieve the first-warn message from the config.");
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "first-warn"));
         } else if (config.isList("first-warn")) {
             warn.clear();
             warn.addAll(config.getStringList("first-warn"));
@@ -54,7 +84,7 @@ public class Messages {
         }
 
         if (!config.contains("items-cleared")) {
-            ClearLag.getInstance().getSLF4JLogger().warn("Could not retrieve the items-cleared message from the config.");
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "items-cleared"));
         } else if (config.isList("items-cleared")) {
             itemsCleared.clear();
             itemsCleared.addAll(config.getStringList("items-cleared"));
@@ -63,7 +93,7 @@ public class Messages {
         }
 
         if (!config.contains("time-left")) {
-            ClearLag.getInstance().getSLF4JLogger().warn("Could not retrieve the time-left message from the config.");
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "time-left"));
         } else if (config.isList("time-left")) {
             timeLeft.clear();
             timeLeft.addAll(config.getStringList("time-left"));
@@ -72,7 +102,7 @@ public class Messages {
         }
 
         if (!config.contains("no-perms")) {
-            ClearLag.getInstance().getSLF4JLogger().warn("Could not retrieve the no-perms success message from the config.");
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "no-perms"));
         } else if (config.isList("no-perms")) {
             noPerms.clear();
             noPerms.addAll(config.getStringList("no-perms"));
@@ -81,7 +111,7 @@ public class Messages {
         }
 
         if (!config.contains("reload-start")) {
-            ClearLag.getInstance().getSLF4JLogger().warn("Could not retrieve the reload-start message from the config.");
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "reload-start"));
         } else if (config.isList("reload-start")) {
             reloadStart.clear();
             reloadStart.addAll(config.getStringList("reload-start"));
@@ -90,7 +120,7 @@ public class Messages {
         }
 
         if (!config.contains("reload-success")) {
-            ClearLag.getInstance().getSLF4JLogger().warn("Could not retrieve the reload-success message from the config.");
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "reload-success"));
         } else if (config.isList("reload-success")) {
             reloadSuccess.clear();
             reloadSuccess.addAll(config.getStringList("reload-success"));
@@ -99,7 +129,7 @@ public class Messages {
         }
 
         if (!config.contains("reload-fail")) {
-            ClearLag.getInstance().getSLF4JLogger().warn("Could not retrieve the reload-fail message from the config.");
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "reload-fail"));
         } else if (config.isList("reload-fail")) {
             reloadFail.clear();
             reloadFail.addAll(config.getStringList("reload-fail"));
@@ -108,7 +138,7 @@ public class Messages {
         }
 
         if (!config.contains("immediate-clear-start")) {
-            ClearLag.getInstance().getSLF4JLogger().warn("Could not retrieve the immediate-clear-start message from the config.");
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "immediate-clear-start"));
         } else if (config.isList("immediate-clear-start")) {
             immediateClearStart.clear();
             immediateClearStart.addAll(config.getStringList("immediate-clear-start"));
@@ -117,7 +147,7 @@ public class Messages {
         }
 
         if (!config.contains("immediate-clear-success")) {
-            ClearLag.getInstance().getSLF4JLogger().warn("Could not retrieve the immediate-clear-success message from the config.");
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "immediate-clear-success"));
         } else if (config.isList("immediate-clear-success")) {
             immediateClearSuccess.clear();
             immediateClearSuccess.addAll(config.getStringList("immediate-clear-success"));
@@ -126,7 +156,7 @@ public class Messages {
         }
 
         if (!config.contains("help")) {
-            ClearLag.getInstance().getSLF4JLogger().warn("Could not retrieve the help message from the config.");
+            ClearLag.getInstance().getSLF4JLogger().warn(Messages.messageNotFound.replace("%msg_label%", "help"));
         } else if (config.isList("help")) {
             help.clear();
             help.addAll(config.getStringList("help"));
@@ -149,6 +179,25 @@ public class Messages {
         return Component.join(JoinConfiguration.newlines(), message.stream().map(line -> serializer.deserialize(PlaceholderAPI.setPlaceholders(null, line))).toList());
     }
 
+    /**
+     * Applies placeholders to each string in a list of strings.
+     *
+     * @param message The list of strings to apply placeholders to.
+     *
+     * @return A list of strings with the placeholders set.
+     */
+    public static List<String> applyPlaceholders(List<String> message) {
+        return message.stream().map(line -> PlaceholderAPI.setPlaceholders(null, line)).toList();
+    }
+
+    // String only
+    public static String papiFound = "PlaceholderAPI enabled";
+    public static String pluginLoaded = "ClearLag setup complete! Next clear is in %clearlag_time_left% seconds.";
+    public static String messageNotFound = "Could not retrieve the \"%msg_label%\" message from the config.";
+    public static String noConfigFile = "Cannot load config file \"%file_path%\"";
+    public static String cannotCreateFile = "Cannot create file \"%file_path%\"";
+
+    // List allowed
     public static List<String> warn = new ArrayList<>(List.of("<gray>[<#FA8128>ClearLag<gray>] <white>Clearing dropped items and unnecessary entities in <#07FB0A>%clearlag_time_left% <white>seconds!"));
     public static List<String> itemsCleared = new ArrayList<>(List.of("<gray>[<#FA8128>ClearLag<gray>] <white>All dropped items and unnecessary entities have been cleared!"));
     public static List<String> timeLeft = new ArrayList<>(List.of("<gray>[<#FA8128>ClearLag<gray>] <white>Next clear is in <#07FB0A>%clearlag_time_left%<white> seconds."));
