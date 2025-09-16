@@ -1,3 +1,6 @@
 run/
 build/
 .idea
+!run/eula.txt
+!run/plugins/*.jar
+.gradle/
