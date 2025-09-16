@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'org.turbojax'
-version = '1.0'
+version = '1.0.1'
 
 repositories {
     mavenCentral()
@@ -39,6 +39,14 @@ java {
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }
+}
+
+tasks.register("resetAndRun") {
+    doLast {
+        delete "run/plugins/ClearLag/config.yml"
+        delete "run/plugins/ClearLag/messages.yml"
+    }
+    finalizedBy(runServer)
 }
 
 tasks.withType(JavaCompile).configureEach {
