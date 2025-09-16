@@ -26,7 +26,7 @@ public class MainConfig {
             try {
                 file.createNewFile();
             } catch (IOException err) {
-                ClearLag.getInstance().getSLF4JLogger().error("Cannot create file \"{}\"", file.getPath(), err);
+                ClearLag.getInstance().getSLF4JLogger().error(Messages.cannotCreateFile.replace("%file_path%", file.getPath()));
                 return false;
             }
         }
@@ -35,7 +35,7 @@ public class MainConfig {
         try {
             config.load(file);
         } catch (IOException | InvalidConfigurationException err) {
-            ClearLag.getInstance().getSLF4JLogger().error("Cannot load config file \"{}\"", file.getPath(), err);
+            ClearLag.getInstance().getSLF4JLogger().error(Messages.noConfigFile.replace("%file_path%", file.getPath()), err);
             return false;
         }
 
