@@ -1,9 +1,23 @@
-# Keys can be strings or string lists.  New entries in the list are treated as new lines.
-# Use minimessage formatting
+# The following keys can only be strings
+# Placeholders:
+#  %clearlag_time_left%: The amount of time until the next clear
+#  %msg_label%: The message that could not be found
+#  %file_path%: The path of the file being referenced
+
+papi-found: "PlaceholderAPI enabled"
+# This only supports %clearlag_time_left%
+plugin-loaded: "ClearLag setup complete! Next clear is in %clearlag_time_left% seconds."
+# This only supports %msg_label%
+message-not-found: "Could not retrieve the \"%msg_label%\" message from the config."
+# These only support %file_path%
+no-config-file: "Cannot load config file \"%file_path%\""
+cannot-create-file: "Cannot create file \"%file_path%\""
 
 # Placeholders:
 #   %clearlag_time_left%: Gets the time until the next clear
 
+# The following keys can be strings or string lists.  New entries in the list are treated as new lines.
+# Use minimessage formatting.
 first-warn: "<gray>[<#FA8128>ClearLag<gray>] <white>Clearing dropped items and unnecessary entities in <#07FB0A>%clearlag_time_left% <white>seconds!"
 second-warn: "<gray>[<#FA8128>ClearLag<gray>] <white>Clearing dropped items and unnecessary entities in <#07FB0A>%clearlag_time_left% <white>seconds!"
 items-cleared: "<gray>[<#FA8128>ClearLag<gray>] <white>All dropped items and unnecessary entities have been cleared!"
