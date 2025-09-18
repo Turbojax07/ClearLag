@@ -4,6 +4,8 @@ You can also configure all of the logged messages, specify entities that won't b
 
 PlaceholderAPI is required by this plugin.
 
+[![modrinth](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/plugin/clearlag-turbojax)
+
 ## Commands:
 ### /clearlag help
 Prints the help message for the command.
