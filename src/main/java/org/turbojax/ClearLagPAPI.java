@@ -33,4 +33,9 @@ public class ClearLagPAPI extends PlaceholderExpansion {
 
         return "";
     }
+
+    @Override
+    public boolean persist() {
+        return true;
+    }
 }
